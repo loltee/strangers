@@ -1,28 +1,61 @@
 import React, { useState, useEffect } from 'react';
+import { getallposts,httpUpdatePost,httpcreatemessage } from '../api/requests';
+import PostUpdate from './PostUpdates';
+import Post from './Post';
 
-const PostList = () => {
+
+
+  const PostList =() => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch('https://strangers-things.herokuapp.com/') // Replace with your API endpoint
-      .then(response => response.json())
-      .then(data => setPosts(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+    
+    async function fetchPosts() {
+     const data = await getallposts()
+     console.log(data) 
+     setPosts(data)
+      
+     }
+   fetchPosts()
 
+   
+   },[])
+
+   const handleUpdate = async (postId, newContent) => {
+      await httpUpdatePost (postId,newContent)
+        setPosts((prevPost)=> prevPost.map((post)=>{
+          if(post.id===postId){
+            return {...post, newContent}
+          }
+          return post
+        }))
+        
+        getallposts()
+    };
+ const handleAddMessage = async (postId, content) => {
+     await httpcreatemessage(postId,{content});
+    getallposts()
+  };
+  
   return (
+    
     <div>
       <h2>Posts</h2>
       <ul>
-        {posts.map(post => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-          </li>
-        ))}
+      {posts.map((post) =>(
+          <Post key={post.id} post={post} onUpdate={handleUpdate} onAddMessage={handleAddMessage}/>
+      ))}
       </ul>
+         
+        
+    
+      
     </div>
   );
-};
+}
+
+
+
+
 
 export default PostList;

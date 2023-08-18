@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
-import PostUpdate from './PostUpdate';
+import PostUpdate from './PostUpdates';
+import MessageForm from './MessageForm';
 
-const Post = ({ post, onUpdate }) => {
+const Post = ({ post, onUpdate, onDelete, onAddMessage }) => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+
+
 
   const handleToggleUpdateForm = () => {
     setShowUpdateForm(!showUpdateForm);
   };
 
-  const Post = ({ post, onDelete }) => {
+  
     const handleDeleteClick = () => {
       onDelete(post.id);
     };
-
+ 
 
   return (
-    <div>
+    <li>
       <h2>{post.title}</h2>
-      <p>{post.content}</p>
+      <p>{post.description}</p>
       <button onClick={handleToggleUpdateForm}>Edit</button>
-      <button onCLick= {handleDeleteCLick}>Delete</button>
-      {showUpdateForm && (
+      {/* <button onCLick= {handleDeleteCLick}>Delete</button> */}
+      {showUpdateForm && ( <>
         <PostUpdate postId={post.id} onUpdate={onUpdate} />
-      )}
-    </div>
+      
+      <MessageForm postId={post.id} onAddMessage={onAddMessage}/>
+      </>)}
+    </li>
     
   );
 };
