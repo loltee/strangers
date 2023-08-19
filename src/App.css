@@ -1,7 +1,7 @@
 /* App.css */
 body {
   font-family: Arial, sans-serif;
-  background-color: #fdfffe;
+  background-color: #c5ceee;
   margin: 0;
   padding: 0;
 }
@@ -61,4 +61,7 @@ button {
 
 button:hover {
   background-color: #2980b9;
+}
+.form{
+  border-color: #3e3bc4;
 }
